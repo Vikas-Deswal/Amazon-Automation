@@ -79,7 +79,7 @@ pip install -r requirements.txt
 
 | Test class (`tests/`) | Test case | Description |
 | --- | --- | --- |
-| `test_single_product_add_to_cart.py::TestAdd_Single_Product_to_Cart` | `test_search_box_present` | Verifies that the Amazon home page exposes the search box. |
+| `TestAdd_Single_Product_to_Cart` | `test_search_box_present` | Verifies that the Amazon home page exposes the search box. |
 |  | `test_homepage` | Submits a search term from data and navigates to search results. |
 |  | `test_search_results` | Locates the desired product from results and opens its detail page. |
 |  | `test_product_overview` | Confirms product title, price, ratings, and images are present. |
@@ -87,7 +87,7 @@ pip install -r requirements.txt
 |  | `test_add_quantity_cart` | Increments cart quantity and validates totals. |
 |  | `test_reduce_cart_quantity` | Decrements cart quantity to the previous value. |
 |  | `test_delete_cart_quantity` | Removes the product from the cart and verifies the removal confirmation. |
-| `test_add_multiple_products_to_cart.py::TestAdd_Multiple_Products_to_Cart` | `test_add_multiple_to_cart` | Loops through multiple products, adds each to the cart, validates titles and prices, and verifies the final cart. |
+| `TestAdd_Multiple_Products_to_Cart` | `test_add_multiple_to_cart` | Loops through multiple products, adds each to the cart, validates titles and prices, and verifies the final cart. |
 
 ## Notes & troubleshooting
 
