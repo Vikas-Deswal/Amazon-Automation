@@ -37,9 +37,9 @@ class ProductOverviewPage(Logger):
     def product_ratings(self):
         log = self.get_logger()
         try:
-            rating = self.driver.find_element(*ProductOverviewPage.rating)
-            customerRatingsTotal = self.driver.find_element(*ProductOverviewPage.customerReviewTotal)
-            rating_info = f"The product has been rated {rating.text} out of 5 stars, with a total of {customerRatingsTotal.text}"
+            rating = self.driver.find_elements(*ProductOverviewPage.rating)
+            customerRatingsTotal = self.driver.find_elements(*ProductOverviewPage.customerReviewTotal)
+            rating_info = f"The product has been rated {rating[1].text} out of 5 stars, with a total of {customerRatingsTotal[1].text}"
             log.info(rating_info)
             return rating_info
         except Exception as e:

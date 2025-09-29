@@ -3,7 +3,7 @@ class HomePageData:
         {
             "test_name": "test_phone_search",
             "search_term": "iPhone 14",
-            "target_product_title": "Apple iPhone 14 (256 GB)"
+            "target_product_title": "Apple iPhone 15"
         },
         {
             "test_name": "test_laptop_search",

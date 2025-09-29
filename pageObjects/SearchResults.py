@@ -1,6 +1,8 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 from utilities.logging import Logger
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class SearchResult(Logger):
 
@@ -8,10 +10,12 @@ class SearchResult(Logger):
         self.driver = driver
 
     ItemsList = (By.XPATH, "//div[@class='a-section a-spacing-small a-spacing-top-small']")
-    LinkToOverview = (By.XPATH, "//a[@class='a-link-normal s-line-clamp-2 s-link-style a-text-normal']")
+    LinkToOverview = (By.XPATH, "//a[@class='a-link-normal s-line-clamp-2 s-line-clamp-3-for-col-12 s-link-style a-text-normal']")
 
     def find_desired_product(self, desired_product):
         log = self.get_logger()
+        wait = WebDriverWait(self.driver, 3)
+        wait_for_search = wait.until(EC.element_to_be_clickable(SearchResult.ItemsList))
         search_list = self.driver.find_elements(*SearchResult.ItemsList)
         for index, search_item in enumerate(search_list):
             try:

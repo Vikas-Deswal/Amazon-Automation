@@ -12,8 +12,9 @@ class addToCart(Logger):
 
     cart = (By.XPATH, "(//input[@id='add-to-cart-button'])[2]")
     alternative_locator = (By.XPATH, "//input[@id='add-to-cart-button']")
-    priceAdded = (By.XPATH, "//span[@id='attach-accessory-cart-subtotal']")
+    priceAdded = (By.XPATH, "//span[@class='a-price a-text-price sc-product-price sc-white-space-nowrap a-size-medium']")
     cartPage = (By.XPATH, "//span[@id='attach-sidesheet-view-cart-button']")
+    actualCart = (By.XPATH, "//span[@id='sw-gtc']")
     addQuantity = (By.XPATH, "//span[@class='a-icon a-icon-small-add']")
     itemRemovedCart = (By.XPATH, "//span[@class='a-size-base sc-list-item-removed-msg-text-delete']")
     cartItems = (By.XPATH, "//div[@data-csa-c-owner='CartX']")
@@ -23,6 +24,7 @@ class addToCart(Logger):
         element_to_show = WebDriverWait(self.driver, 6).until(
             expected_conditions.visibility_of_element_located(
                 (By.XPATH, locator)))
+        return element_to_show
 
     def add_to_cart_button(self):
         log = self.get_logger()
@@ -43,25 +45,21 @@ class addToCart(Logger):
                 log.error(f"Both locators failed: {e2}")
                 raise  # Re-raise the exception to signal a failure.
 
+        goToCart = self.driver.find_element(*addToCart.actualCart)
+        goToCart.click()
+
     def price_added_cart(self):
         log = self.get_logger()
         cartPrice = self.driver.find_element(*addToCart.priceAdded)
         log.info(f"Price in cart: {cartPrice.text}")
         return cartPrice.text
 
-    def cart_page(self):
-        log = self.get_logger()
-        cartPage = "//span[@id='attach-sidesheet-view-cart-button']"
-        self.verify_elements_visibility(cartPage)
-        go_to_Cart = self.driver.find_element(By.XPATH, cartPage)
-        log.info("Navigating to Cart Page")
-        go_to_Cart.click()
-
     def modify_cart_add(self):
         log = self.get_logger()
-        addQuantity = self.driver.find_element(*addToCart.addQuantity)
+
+        increase_cart = self.driver.find_element(*addToCart.addQuantity)
         log.info("Increasing Cart Quantity")
-        addQuantity.click()
+        increase_cart.click()
         visible_delete = "//input[@value='Delete']"
         self.verify_elements_visibility(visible_delete)
 
