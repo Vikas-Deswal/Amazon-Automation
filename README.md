@@ -37,6 +37,11 @@ Amazon-Automation/
 ## Install dependencies
 
 - **Install requirements**
+- Allure is required to see the reports. Skip if already installed.
+- ```Homebrew
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  brew install allure
+  ```
   ```bash
   pip install -r requirements.txt
   ```
