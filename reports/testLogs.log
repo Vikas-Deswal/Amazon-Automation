@@ -120,3 +120,64 @@ Add to cart
 2025-02-06 17:11:23,105 - test_delete_cart_quantity - INFO - Deleting the product items from the cart
 2025-02-06 17:11:23,131 - delete_cart - INFO - Clicking on Delete button
 2025-02-06 17:11:23,207 - delete_cart - INFO - Cart Deletion Message: HP 15, 13th Gen Intel Core i5-1334U, 16GB DDR4, 512GB SSD, (Win ... was removed from Shopping Cart.
+2025-10-10 18:44:31,055 - test_search_box_present - INFO - Search box is present on Home Page
+2025-10-10 18:44:31,057 - test_homepage - INFO - Searching for term: iPhone 14
+2025-10-10 18:44:32,760 - find_desired_product - INFO - Desired product found at index: 0
+2025-10-10 18:44:32,780 - test_search_results - INFO - Found product: Sponsored
+Apple iPhone 15 (128 GB) - Black
+6,362
+5K+ bought in past month
+Great Indian Festival
+₹47,999
+M.R.P:
+₹69,900 (31% off)
+Up to 5% back with Amazon Pay ICICI card
+FREE delivery Tue, 14 Oct
+Or fastest delivery Sun, 12 Oct
+Arrives before Diwali
+Add to cart
++4 other colors/patterns
+2025-10-10 18:44:36,155 - product_title - INFO - Product title is Apple iPhone 15 (128 GB) - Black
+2025-10-10 18:44:36,165 - product_price - INFO - Product Price is: 47,999
+2025-10-10 18:44:36,185 - product_ratings - INFO - The product has been rated 4.5 out of 5 stars, with a total of 6,386 ratings
+2025-10-10 18:44:36,190 - product_images - INFO - 6 images are present
+2025-10-10 18:44:36,191 - test_add_to_cart - INFO - Adding product to cart
+2025-10-10 18:44:36,197 - add_to_cart_button - INFO - Clicking on Add to Cart button (first attempt)
+2025-10-10 18:44:38,377 - price_added_cart - INFO - Price in cart: ₹47,999.00
+2025-10-10 18:44:38,384 - modify_cart_add - INFO - Increasing Cart Quantity
+2025-10-10 18:44:38,418 - test_add_quantity_cart - INFO - Verifying the cart total
+2025-10-10 18:44:38,432 - verify_cart_modification - INFO - Calculated Total: 47999, Cart Total: 47999.0
+2025-10-10 18:44:40,451 - modify_cart_reduce - INFO - Reducing Cart Quantity
+2025-10-10 18:44:42,492 - test_delete_cart_quantity - INFO - Deleting the product items from the cart
+2025-10-10 18:44:42,513 - delete_cart - INFO - Clicking on Delete button
+2025-10-10 18:44:55,031 - test_search_box_present - INFO - Search box is present on Home Page
+2025-10-10 18:44:55,032 - test_homepage - INFO - Searching for term: HP 15
+2025-10-10 18:44:56,858 - find_desired_product - INFO - Desired product found at index: 1
+2025-10-10 18:44:56,876 - test_search_results - INFO - Found product: Sponsored
+HP 15, 13th Gen Intel Core i5-1334U (16GB DDR4, 512GB SSD) Anti-Glare, Micro-Edge, 15.6''/39.6cm, FHD, Win 11, Office 24, Silver, 1.59kg, fd0467tu, Iris Xe Graphics, FHD Camera, Backlit KB Laptop
+372
+4K+ bought in past month
+Great Indian Festival
+₹51,990
+M.R.P:
+₹73,920 (30% off)
+Up to 5% back with Amazon Pay ICICI card
+FREE delivery Mon, 13 Oct
+Or fastest delivery Sun, 12 Oct
+Arrives before Diwali
+Service: Device Setup
+Add to cart
++2 other colors/patterns
+2025-10-10 18:44:59,946 - product_title - INFO - Product title is HP 15, 13th Gen Intel Core i5-1334U (16GB DDR4, 512GB SSD) Anti-Glare, Micro-Edge, 15.6''/39.6cm, FHD, Win 11, Office 24, Silver, 1.59kg, fd0467tu, Iris Xe Graphics, FHD Camera, Backlit KB Laptop
+2025-10-10 18:44:59,959 - product_price - INFO - Product Price is: 51,990
+2025-10-10 18:44:59,976 - product_ratings - INFO - The product has been rated 3.7 out of 5 stars, with a total of 372 ratings
+2025-10-10 18:44:59,982 - product_images - INFO - 5 images are present
+2025-10-10 18:44:59,983 - test_add_to_cart - INFO - Adding product to cart
+2025-10-10 18:44:59,988 - add_to_cart_button - INFO - Clicking on Add to Cart button (first attempt)
+2025-10-10 18:45:02,160 - price_added_cart - INFO - Price in cart: ₹51,990.00
+2025-10-10 18:45:02,168 - modify_cart_add - INFO - Increasing Cart Quantity
+2025-10-10 18:45:02,217 - test_add_quantity_cart - INFO - Verifying the cart total
+2025-10-10 18:45:02,231 - verify_cart_modification - INFO - Calculated Total: 51990, Cart Total: 51990.0
+2025-10-10 18:45:04,265 - modify_cart_reduce - INFO - Reducing Cart Quantity
+2025-10-10 18:45:06,353 - test_delete_cart_quantity - INFO - Deleting the product items from the cart
+2025-10-10 18:45:06,373 - delete_cart - INFO - Clicking on Delete button

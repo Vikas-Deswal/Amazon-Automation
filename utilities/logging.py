@@ -1,6 +1,6 @@
 import inspect
 import logging
-
+from pathlib import Path
 
 class Logger:
     def get_logger(self):
@@ -10,8 +10,14 @@ class Logger:
 
         # Create a file handler (you can customize file path and format)
         if not logger.handlers:  # Only add handler if it doesn't exist
-            fileHandler = logging.FileHandler(
-                '/Users/vikasdeswal/Documents/Projects/Amazon Automation/reports/testLogs.log')
+            current_file = Path(__file__)
+            project_root = current_file.parent.parent
+            log_file = project_root/"reports"/"testLogs.log"
+
+            # Create directory if it doesn't exist
+            log_file.parent.mkdir(parents=True, exist_ok=True)
+
+            fileHandler = logging.FileHandler(log_file)
             formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
             fileHandler.setFormatter(formatter)
             logger.addHandler(fileHandler)

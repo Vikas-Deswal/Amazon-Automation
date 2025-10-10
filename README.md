@@ -1,106 +1,269 @@
-# Amazon-Automation
+# Amazon UI Automation Framework
 
-Automation test suite built with `pytest` and Selenium to cover key Amazon shopping journeys (search, product validation, cart management) for both single and multiple product flows. The suite follows the Page Object Model and uses centralized test data from `TestData/HomePage_Data.py`.
+> **Selenium-based UI test automation framework demonstrating Page Object Model, data-driven testing, and clean test architecture for e-commerce workflows.**
 
-## Repository structure
+## Project Scope & Focus
+
+**This project demonstrates:**
+- UI test automation using Selenium WebDriver 4.x
+- Page Object Model (POM) design pattern
+- Data-driven testing with pytest fixtures and parametrization
+- Comprehensive test reporting with Allure Reports
+- Clean, maintainable test architecture
+- Modular utilities for logging and data operations
+
+**Out of Scope (by design):**
+- CI/CD pipeline integration (planned for separate DevOps showcase project)
+- Containerization (Docker/Kubernetes)
+- API testing (covered in separate REST API automation project)
+- Performance/Load testing
+
+**Target Role:** QA Automation Engineer / SDET (UI Automation focus)
+
+## Architecture Highlights
+
+- **Design Pattern:** Page Object Model with clear separation of concerns
+- **Test Framework:** pytest with custom fixtures for setup/teardown
+- **Reporting:** Allure Reports with step-by-step test execution details
+- **Test Data Management:** Centralized data files for easy maintenance
+- **Logging:** Custom logger utility for debugging and traceability
+- **Browser Support:** Chrome (extensible to Firefox, Edge)
+
+## Test Coverage
+
+This framework covers the following e-commerce user journeys:
+
+| Feature | Test Scenarios | Status |
+|---------|---------------|--------|
+| **Search** | Search box validation, product search | Automated |
+| **Product Details** | Title, price, ratings, images validation | Automated |
+| **Cart Operations** | Add to cart, quantity modification, removal | Automated |
+| **Multi-Product Flow** | Add multiple products, cart total validation | Automated |
+| **Price Validation** | Cart subtotal, item-level pricing | Automated |
+
+## Repository Structure
 
 ```text
 Amazon-Automation/
-├── pageObjects/           # Page Object Model classes for each Amazon page
-├── tests/                 # Pytest suites for single and multi-product scenarios
-├── TestData/              # Centralized data used by fixtures and tests
-├── utilities/             # Logger and helper utilities
-├── reports/               # HTML/pytest reports (auto-created)
-├── requirements.txt       # Python dependencies
+├── pageObjects/           
+│   ├── HomePage.py        
+│   ├── SearchResults.py   
+│   ├── Products.py        
+│   └── addToCart.py       
+├── tests/                 
+│   ├── conftest.py        
+│   ├── test_single_product_add_to_cart.py    
+│   └── test_add_multiple_products_to_cart.py 
+├── TestData/              
+│   └── HomePage_Data.py   
+├── utilities/             
+│   ├── logging.py         
+│   └── PriceOperations.py 
+├── reports/               
+├── allure-results/      
+├── requirements.txt       
 └── README.md
 ```
 
-## Getting the code
+## Getting Started
 
-- **Clone a fresh copy**
-  ```bash
-  git clone <repository-url>
-  cd Amazon-Automation
-  ```
+### Prerequisites
 
-- **Pull the latest changes** (from `main`; update the branch name if different)
-  ```bash
-  git pull origin main
-  ```
+- **Python**: 3.10+
+- **Google Chrome**: Latest stable version
+- **ChromeDriver**: Managed automatically by Selenium 4.6+ (no manual download needed)
+- **Allure**: For generating test reports
 
-## Prerequisites
+### Installation
 
-- **Python**: 3.10+ (developed against CPython; create a virtual environment if desired)
-- **Google Chrome**: Latest stable version installed locally
-- **ChromeDriver**: Managed automatically by Selenium 4.6+ via Selenium Manager; no manual download required in most environments
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Amazon-Automation
+   ```
 
-## Install dependencies
+2. **Create and activate virtual environment** (recommended)
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate    # On Windows: .venv\Scripts\activate
+   ```
 
-- **Install requirements**
-- Allure is required to see the reports. Skip if already installed.
-- ```Homebrew
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  brew install allure
-  ```
-  ```bash
-  pip install -r requirements.txt
-  ```
+3. **Install Python dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-If you prefer isolation, create and activate a virtual environment before installing dependencies:
+4. **Install Allure** (for report generation)
+   ```bash
+   # macOS (using Homebrew)
+   brew install allure
+   
+   # Windows (using Scoop)
+   scoop install allure
+   
+   # Linux (manual installation)
+   # Download from: https://github.com/allure-framework/allure2/releases
+   ```
+
+## Running Tests
+
+### Basic Execution
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate    # On Windows use: .venv\Scripts\activate
-pip install -r requirements.txt
+# Run all tests
+pytest
+
+# Run specific test file
+pytest tests/test_single_product_add_to_cart.py
+
+# Run specific test class
+pytest tests/test_single_product_add_to_cart.py::TestAdd_Single_Product_to_Cart
+
+# Run specific test method
+pytest tests/test_single_product_add_to_cart.py::TestAdd_Single_Product_to_Cart::test_homepage
 ```
 
-## Running the tests
+### Test Reporting
 
-- **Execute the full suite**
-  ```bash
-  pytest
-  ```
+```bash
+# Generate HTML report
+pytest --html=reports/report.html
 
-- **Run a specific module**
-  ```bash
-  pytest tests/test_single_product_add_to_cart.py
-  ```
+# Generate Allure report
+pytest --alluredir=allure-results
+allure serve allure-results
 
-- **Generate an HTML report**
-  ```bash
-  pytest --html reports/<filename>.html
-  ```
+# View existing Allure report
+allure generate allure-results --clean -o allure-report
+allure open allure-report
+```
 
-- **Headless execution (optional)**
-  Add a custom option in `tests/conftest.py` to initialize `webdriver.Chrome(options=...)` with headless arguments if needed.
+### Advanced Options
 
-## Test data management
+```bash
+# Run with verbose output
+pytest -v
 
-- **Single-product scenarios** load from `HomePageData.test_home_data`.
-- **Multi-product scenarios** iterate over `HomePageData.test_home_data_multiple`.
-- Update the search terms or expected titles in `TestData/HomePage_Data.py` to run the flow against different products.
+# Run with detailed output
+pytest -vv
 
-## Covered test cases
+# Stop on first failure
+pytest -x
 
-| Test class (`tests/`) | Test case | Description |
-| --- | --- | --- |
-| `TestAdd_Single_Product_to_Cart` | `test_search_box_present` | Verifies that the Amazon home page exposes the search box. |
-|  | `test_homepage` | Submits a search term from data and navigates to search results. |
-|  | `test_search_results` | Locates the desired product from results and opens its detail page. |
-|  | `test_product_overview` | Confirms product title, price, ratings, and images are present. |
-|  | `test_add_to_cart` | Adds the product to the cart and checks pricing in the subtotal widget. |
-|  | `test_add_quantity_cart` | Increments cart quantity and validates totals. |
-|  | `test_reduce_cart_quantity` | Decrements cart quantity to the previous value. |
-|  | `test_delete_cart_quantity` | Removes the product from the cart and verifies the removal confirmation. |
-| `TestAdd_Multiple_Products_to_Cart` | `test_add_multiple_to_cart` | Loops through multiple products, adds each to the cart, validates titles and prices, and verifies the final cart. |
+# Show print statements
+pytest -s
+```
 
-## Notes & troubleshooting
+## Test Data Management
 
-- **Locator updates**: Amazon UI changes frequently. If locators in `pageObjects/` no longer match the live site, update them to restore stability.
-- **Slow networks**: Consider adding explicit waits (e.g., Selenium `WebDriverWait`) for reliability if the site is slow to load.
-- **Reports directory**: Ensure the `reports/` directory exists or allow `pytest` to create it when generating HTML output.
+Test data is centralized in `TestData/HomePage_Data.py` for easy maintenance and reusability.
 
-## Contributing
+### Data Structure
 
-- Fork the repository and create feature branches for significant updates.
-- Open pull requests with descriptive change logs and mention any new test data required.
+```python
+# Single product test data
+test_home_data = [
+    {
+        "test_name": "test_phone_search",
+        "search_term": "iPhone 14",
+        "target_product_title": "Apple iPhone 15"
+    },
+    # ... more products
+]
+
+# Multiple product test data
+test_home_data_multiple = [
+    [
+        {"search_term": "iPhone 14", "target_product_title": "Apple iPhone 14"},
+        {"search_term": "Laptop", "target_product_title": "HP Laptop"}
+    ],
+    # ... more product combinations
+]
+```
+
+### Customization
+
+To test different products, simply update the data in `TestData/HomePage_Data.py`:
+- **search_term**: Product keyword to search
+- **target_product_title**: Expected product title in results
+
+## Detailed Test Cases
+
+### Single Product Workflow (`TestAdd_Single_Product_to_Cart`)
+
+| Test Case | Severity | Description |
+|-----------|----------|-------------|
+| `test_search_box_present` | Normal | Validates search box visibility on home page |
+| `test_homepage` | Critical | Performs product search and navigates to results |
+| `test_search_results` | Critical | Locates target product and opens detail page |
+| `test_product_overview` | Critical | Validates product title, price, ratings, images |
+| `test_add_to_cart` | Blocker | Adds product to cart and verifies pricing |
+| `test_add_quantity_cart` | Critical | Increases quantity and validates cart total |
+| `test_reduce_cart_quantity` | Normal | Decreases quantity in cart |
+| `test_delete_cart_quantity` | Critical | Removes product and verifies cart is empty |
+
+### Multiple Product Workflow (`TestAdd_Multiple_Products_to_Cart`)
+
+| Test Case | Severity | Description |
+|-----------|----------|-------------|
+| `test_add_multiple_to_cart` | Critical | Adds multiple products sequentially and validates final cart state |
+
+## Key Design Decisions & Learnings
+
+### Why Page Object Model?
+- **Maintainability**: UI changes require updates in one place only
+- **Reusability**: Page methods can be reused across multiple tests
+- **Readability**: Tests read like user stories, not technical code
+
+### Why pytest?
+- **Powerful fixtures**: Setup/teardown with scope control
+- **Parametrization**: Data-driven testing with minimal code
+- **Rich ecosystem**: Extensive plugin support (pytest-html, allure-pytest)
+
+### Why Allure Reports?
+- **Stakeholder-friendly**: Non-technical users can understand test results
+- **Detailed steps**: Each test action is logged with attachments
+- **Historical trends**: Track test stability over time
+
+### Why Centralized Test Data?
+- **Single source of truth**: All test data in one location
+- **Easy updates**: Change product searches without touching test code
+- **Scalability**: Add new test scenarios by adding data entries
+
+## Known Limitations & Troubleshooting
+
+### Common Issues
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| **Locator failures** | Amazon UI changes frequently | Update XPath/CSS selectors in `pageObjects/` |
+| **Timeout errors** | Slow network or page load | Increase wait times in `WebDriverWait` calls |
+| **ChromeDriver issues** | Version mismatch | Selenium 4.6+ auto-manages drivers; ensure Chrome is updated |
+| **Test flakiness** | Dynamic content loading | Add explicit waits for element visibility |
+
+### Best Practices
+
+- **Run tests in isolation**: Each test should be independent
+- **Use explicit waits**: Avoid `time.sleep()` for stability
+- **Keep test data updated**: Amazon product availability changes
+- **Review Allure reports**: Analyze failures with screenshots and logs
+
+## Future Enhancements
+
+Potential improvements for this framework:
+
+- [ ] **Cross-browser testing** (Firefox, Edge, Safari)
+- [ ] **Headless execution** for faster CI/CD runs
+- [ ] **Parallel test execution** (pytest-xdist)
+- [ ] **Screenshot on failure** for better debugging
+- [ ] **Visual regression testing** (Percy/Applitools)
+- [ ] **Accessibility testing** (axe-core integration)
+- [ ] **Mobile responsive testing** (Appium/BrowserStack)
+- [ ] **Database validation** for order verification
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👤 Author
+**Vikas Deswal**
