@@ -16,7 +16,6 @@ class addToCart(Logger):
     cartPage = (By.XPATH, "//span[@id='attach-sidesheet-view-cart-button']")
     actualCart = (By.XPATH, "//span[@id='sw-gtc']")
     addQuantity = (By.XPATH, "//span[@class='a-icon a-icon-small-add']")
-    itemRemovedCart = (By.XPATH, "//span[@class='a-size-base sc-list-item-removed-msg-text-delete']")
     cartItems = (By.XPATH, "//div[@data-csa-c-owner='CartX']")
     cartTotal = (By.XPATH, "//span[@class='a-size-medium a-color-base sc-price sc-white-space-nowrap']")
 
@@ -110,11 +109,14 @@ class addToCart(Logger):
     def delete_cart(self):
         log = self.get_logger()
         visible_delete = "//input[@value='Delete']"
-        self.verify_elements_visibility(visible_delete)
-        empty_cart = self.driver.find_element(By.XPATH, visible_delete)
+        itemRemovedCart = "//span[contains(@id, 'sc-list-item-removed-msg-text-delete')]"
+        empty_cart = WebDriverWait(self.driver, 6).until(
+            expected_conditions.element_to_be_clickable((By.XPATH, visible_delete)))
         log.info("Clicking on Delete button")
         empty_cart.click()
-        cart_empty = self.driver.find_element(*addToCart.itemRemovedCart)
+
+        self.verify_elements_visibility(itemRemovedCart)
+        cart_empty = self.driver.find_element(By.XPATH, itemRemovedCart)
         cart_empty_message = cart_empty.text
         log.info(f"Cart Deletion Message: {cart_empty_message}")
         return cart_empty_message

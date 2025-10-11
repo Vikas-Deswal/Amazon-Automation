@@ -2,7 +2,7 @@ class HomePageData:
     test_home_data = [  # Data for single product tests
         {
             "test_name": "test_phone_search",
-            "search_term": "iPhone 14",
+            "search_term": "iPhone 15",
             "target_product_title": "Apple iPhone 15"
         },
         {

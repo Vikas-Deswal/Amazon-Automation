@@ -1,4 +1,3 @@
-import time
 import allure
 
 from allure_commons.types import AttachmentType
@@ -15,7 +14,7 @@ from utilities.logging import Logger
 @pytest.mark.usefixtures("setup")
 @allure.epic("Amazon e-Commerce Flow")
 @allure.feature("Single product Search and Add to Cart")
-class TestAdd_Single_Product_to_Cart(Logger):
+class TestAddSingleProductToCart(Logger):
 
     @allure.story("Home Page Validation")
     @allure.severity(allure.severity_level.NORMAL)
@@ -71,6 +70,7 @@ class TestAdd_Single_Product_to_Cart(Logger):
     @allure.title("Verify product overview details")
     @allure.description("Validate title, price, ratings, and images are present on product overview page.")
     def test_product_overview(self):
+        log = self.get_logger()
         target_product_title = self.test_home_data["target_product_title"]
         product_page = ProductOverviewPage(self.driver)
 
@@ -80,11 +80,19 @@ class TestAdd_Single_Product_to_Cart(Logger):
             assert all(part.lower() in product_page_title.lower() for part in target_product_title.split()), "Product Title isn't matching the Searched product"
 
         with allure.step("Verify product price is visible"):
-            product_page.product_price()    # Checking the product price is present or not
+            product_price = product_page.product_price()    # Checking the product price is present or not
+            assert product_price is not None, "Product price is not displayed"
+            log.info(f"Product price validated: {product_price}")
+        
         with allure.step("Verify product ratings are visible"):
-            product_page.product_ratings()  # Checking the product ratings is present or not
+            product_ratings = product_page.product_ratings()  # Checking the product ratings is present or not
+            assert product_ratings is not None, "Product ratings are not displayed"
+            log.info(f"Product ratings validated: {product_ratings}")
+        
         with allure.step("Count product images in the gallery"):
-            product_page.product_images()   # Getting the number of images in the product page
+            product_images = product_page.product_images()   # Getting the number of images in the product page
+            assert product_images > 0, "Product images are not displayed"
+            log.info(f"Product images validated: {product_images}")
 
     @allure.story("Add To Cart")
     @allure.severity(allure.severity_level.BLOCKER)
@@ -124,7 +132,6 @@ class TestAdd_Single_Product_to_Cart(Logger):
     @allure.description("Modify the cart quantity by one unit.")
     def test_reduce_cart_quantity(self):
         log = self.get_logger()
-        time.sleep(2)
         modifyCart = addToCart(self.driver)
         with allure.step("Reduce product quantity in cart"):
             modifyCart.modify_cart_reduce()
@@ -135,7 +142,6 @@ class TestAdd_Single_Product_to_Cart(Logger):
     @allure.description("Delete product from cart and validate cart is cleared.")
     def test_delete_cart_quantity(self):
         log = self.get_logger()
-        time.sleep(2)
         modifyCart = addToCart(self.driver)
         log.info("Deleting the product items from the cart")
         with allure.step("Delete the product from the cart"):

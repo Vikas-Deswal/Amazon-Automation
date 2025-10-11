@@ -29,7 +29,7 @@ class ProductOverviewPage(Logger):
         try:
             price = self.driver.find_elements(*ProductOverviewPage.productPrice)
             product_price = price[4].text
-            log.info(f"Product Price is: {product_price}")
+            return product_price
         except Exception as e:
             log.error(f"Error fetching price: {e}")
             return "Product price is not found"
