@@ -52,6 +52,7 @@ class ProductOverviewPage(Logger):
             product_images = self.driver.find_elements(*ProductOverviewPage.productImages)
             if len(product_images) > 0:
                 log.info(str(len(product_images)) + " images are present")
+                return len(product_images)
             else:
                 log.info("No images are present")
         except Exception as e:
