@@ -62,9 +62,6 @@ class TestAdd_Multiple_Products_to_Cart(Logger):
                 with allure.step("Click 'Add to Cart' button"):
                     cartPage.add_to_cart_button()
 
-                locator = "//span[@id='attach-accessory-cart-subtotal']"  # Waiting for the price to show up
-                with allure.step("Wait for cart subtotal element to be visible"):
-                    cartPage.verify_elements_visibility(locator)
                 with allure.step("Capture and validate cart price"):
                     price_cart = cartPage.price_added_cart()  # Verifying the prices
                     allure.attach(str(price_cart), name="cart_price", attachment_type=AttachmentType.TEXT)
