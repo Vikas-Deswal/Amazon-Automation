@@ -96,7 +96,7 @@ allure serve allure-results
 ## Key Metrics
 
 - **Test Count**: 8 test cases covering critical e-commerce workflows
-- **Execution Time**: ~45-60 seconds per test run (sequential)
+- **Execution Time**: ~60-90 seconds per test run (sequential with anti-bot delays)
 - **Pass Rate**: 100% (when Amazon UI is stable)
 - **Test Coverage**: End-to-end user journeys (search → product details → cart operations)
 - **CI/CD**: Automated on every push to main branch
@@ -174,13 +174,13 @@ allure generate allure-results --clean -o allure-report
 allure open allure-report
 ```
 
-### Parallel Execution
+### Parallel Execution (Local Development)
 
 ```bash
 # Install pytest-xdist for parallel execution
 pip install pytest-xdist
 
-# Run tests in parallel (4 workers)
+# Run tests in parallel
 pytest -n 4 --alluredir=allure-results
 
 # Auto-detect number of CPU cores
@@ -199,7 +199,8 @@ This project includes **GitHub Actions** for automated test execution:
 ### Automatic Execution
 - Tests run automatically on every push to the `main` branch
 - Generates Allure reports and uploads as artifacts
-- Parallel execution enabled for faster feedback
+- **Sequential execution** used to avoid Amazon's anti-bot detection
+- Built-in delays between requests to respect rate limits
 
 ### Manual Trigger
 - Go to **Actions** tab in GitHub
