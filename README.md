@@ -1,5 +1,7 @@
 # Amazon UI Automation Framework
 
+[![Run Selenium Smoke Tests](https://github.com/Vikas-Deswal/Amazon-Automation/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Vikas-Deswal/Amazon-Automation/actions/workflows/run-tests.yml)
+
 > **Selenium-based UI test automation framework demonstrating Page Object Model, data-driven testing, and clean test architecture for e-commerce workflows.**
 
 ## Project Scope & Focus
