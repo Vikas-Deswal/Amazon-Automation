@@ -1,15 +1,11 @@
 import allure
-
 from allure_commons.types import AttachmentType
-
 import pytest
-
 from pageObjects.HomePage import HomePage
 from pageObjects.Products import ProductOverviewPage
 from pageObjects.SearchResults import SearchResult
 from pageObjects.addToCart import addToCart
 from utilities.logging import Logger
-
 
 @pytest.mark.usefixtures("setup")
 @allure.epic("Amazon e-Commerce Flow")
@@ -20,6 +16,7 @@ class TestAddSingleProductToCart(Logger):
     @allure.severity(allure.severity_level.NORMAL)
     @allure.title("Verify search box is present on Home Page")
     @allure.description("Ensure user can see the search box on Amazon home page before starting the flow.")
+    @pytest.mark.smoke
     def test_search_box_present(self):
         log = self.get_logger()
         hp = HomePage(self.driver)
@@ -32,6 +29,7 @@ class TestAddSingleProductToCart(Logger):
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.title("Search a product from Home Page")
     @allure.description("Enter search term and submit to navigate to search results.")
+    @pytest.mark.smoke
     def test_homepage(self):
         log = self.get_logger()
         homePage = HomePage(self.driver)
@@ -47,6 +45,7 @@ class TestAddSingleProductToCart(Logger):
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.title("Locate the desired product in search results and open overview")
     @allure.description("Find target product in results and navigate to its overview page.")
+    @pytest.mark.smoke
     def test_search_results(self):
         log = self.get_logger()
         target_product_title = self.test_home_data["target_product_title"]
@@ -69,6 +68,7 @@ class TestAddSingleProductToCart(Logger):
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.title("Verify product overview details")
     @allure.description("Validate title, price, ratings, and images are present on product overview page.")
+    @pytest.mark.smoke
     def test_product_overview(self):
         log = self.get_logger()
         target_product_title = self.test_home_data["target_product_title"]

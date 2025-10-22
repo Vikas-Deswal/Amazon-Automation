@@ -1,25 +1,16 @@
-from selenium.webdriver.common.by import By
+from pageObjects.locators import SearchResultLocators
 from selenium.webdriver import ActionChains
-from utilities.logging import Logger
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from utilities.BasePage import BaseActions
 
-class SearchResult(Logger):
-
-    def __init__(self, driver):
-        self.driver = driver
-
-    ItemsList = (By.XPATH, "//div[@class='a-section a-spacing-small a-spacing-top-small']")
-    LinkToOverview = (By.XPATH, "//a[@class='a-link-normal s-line-clamp-2 s-line-clamp-3-for-col-12 s-link-style a-text-normal']")
+class SearchResult(BaseActions):
 
     def find_desired_product(self, desired_product):
         log = self.get_logger()
-        wait = WebDriverWait(self.driver, 3)
-        wait_for_search = wait.until(EC.element_to_be_clickable(SearchResult.ItemsList))
-        search_list = self.driver.find_elements(*SearchResult.ItemsList)
+        self.element_clickable(SearchResultLocators.items_list)
+        search_list = self.driver.find_elements(*SearchResultLocators.items_list)
         for index, search_item in enumerate(search_list):
             try:
-                name_element = search_item.find_element(By.XPATH, "div/a/h2/span")
+                name_element = search_item.find_element(*SearchResultLocators.item_name)
                 name = name_element.text
                 desired_product_parts = desired_product.lower().split()
                 # Check if all key parts are present in the product name
@@ -31,7 +22,7 @@ class SearchResult(Logger):
 
     def navigate_to_product_overview(self,index):
         action = ActionChains(self.driver)
-        product_to_click = self.driver.find_elements(*SearchResult.LinkToOverview)
+        product_to_click = self.driver.find_elements(*SearchResultLocators.link_to_overview)
         action.move_to_element(product_to_click[index]).click().perform()
         windOpened = self.driver.window_handles
         self.driver.switch_to.window(windOpened[1])

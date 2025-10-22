@@ -1,1 +1,0 @@
-[32mINFO    [0m modify_cart_reduce:addToCart.py:105 Reducing Cart Quantity

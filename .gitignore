@@ -1,0 +1,9 @@
+/pythonProject/
+__pycache__
+allure-results
+.pytest_cache
+.DS_Store
+reports
+*.log
+.venv
+.idea

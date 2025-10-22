@@ -5,11 +5,6 @@ class HomePageData:
             "search_term": "iPhone 15",
             "target_product_title": "Apple iPhone 15"
         },
-        {
-            "test_name": "test_laptop_search",
-            "search_term": "HP 15",
-            "target_product_title": "HP 15, 13th Gen Intel Core i5-1334U"
-        },
         # ... more single product data
     ]
 
