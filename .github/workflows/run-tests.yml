@@ -1,8 +1,11 @@
 name: Run Selenium Smoke Tests
 
 on:
+  pull:
+    branches: [ main ]
   push:
     branches: [ main ]
+    
   workflow_dispatch:
     inputs:
       browser:
