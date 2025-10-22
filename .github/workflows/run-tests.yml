@@ -52,8 +52,12 @@ jobs:
           sudo ln -s /opt/allure-2.24.0/bin/allure /usr/bin/allure
 
       - name: Run tests with Allure (Parallel + Headless)
+        env:
+          IMPLICIT_WAIT: "15"
+          EXPLICIT_WAIT: "25"
+          PAGE_LOAD_TIMEOUT: "40"
         run: |
-          pytest -n auto --browser ${{ github.event.inputs.browser || 'chrome' }} -m smoke --headless ${{ github.event.inputs.headless || 'true' }} --alluredir=allure-results
+          pytest -n auto --browser ${{ github.event.inputs.browser || 'chrome' }} -m smoke --headless ${{ github.event.inputs.headless || 'true' }} --alluredir=allure-results -v
 
       - name: Generate Allure report
         if: always()
