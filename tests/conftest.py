@@ -16,18 +16,25 @@ def pytest_addoption(parser):
 
 def get_driver(request):
     browser = request.config.getoption('--browser')
-    headless = request.config.getoption('--headless')
+    headless = request.config.getoption('--headless').lower() == 'true'
     # Chrome Browser
     if browser == "chrome":
         options = ChromeOptions()
         if headless:
             options.add_argument("--headless=new")
             options.add_argument("--disable-gpu")
+            options.add_argument("--no-sandbox")  # Required for CI/CD environments
+            options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
+            options.add_argument("--window-size=1920,1080")
+        else:
+            options.add_argument("--start-maximized")   # open browser full screen
+            options.add_argument("--window-size=1920,1080")
 
-        # Extra options as parameters     
-        options.add_argument("--start-maximized")   # open browser full screen
+        # Common options
         options.add_argument("--disable-notifications")  # disable pop-ups
-        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option('useAutomationExtension', False)
 
         driver = webdriver.Chrome(options=options)
     
@@ -36,11 +43,12 @@ def get_driver(request):
         options = FirefoxOptions()
         if headless:
             options.add_argument("--headless")
+        else:
+            options.add_argument("--start-maximized")
         
-        # Extra options as parameters     
-        options.add_argument("--start-maximized")   # open browser full screen
-        options.add_argument("--disable-notifications")  # disable pop-ups
-        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--disable-notifications")
+        options.add_argument("--width=1920")
+        options.add_argument("--height=1080")
 
         driver = webdriver.Firefox(options=options)
     
@@ -49,10 +57,10 @@ def get_driver(request):
         options = EdgeOptions()
         if headless:
             options.add_argument("--headless")
+        else:
+            options.add_argument("--start-maximized")
         
-        # Extra options as parameters     
-        options.add_argument("--start-maximized")   # open browser full screen
-        options.add_argument("--disable-notifications")  # disable pop-ups
+        options.add_argument("--disable-notifications")
         options.add_argument("--window-size=1920,1080")
         
         driver = webdriver.Edge(options=options)
