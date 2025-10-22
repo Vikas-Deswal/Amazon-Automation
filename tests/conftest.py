@@ -6,12 +6,22 @@ from selenium import webdriver
 from TestData.HomePage_Data import HomePageData
 from config import Config
 
-def get_driver():
+def pytest_addoption(parser):
+    parser.addoption(
+        "--browser", action="store", default="chrome", help="select browser: chrome or firefox or edge"
+    )
+    parser.addoption(
+        "--headless", action="store", default="false", help="on ui: true or false"
+    )
+
+def get_driver(request):
+    browser = request.config.getoption('--browser')
+    headless = request.config.getoption('--headless')
     # Chrome Browser
-    if Config.BROWSER == "chrome":
+    if browser == "chrome":
         options = ChromeOptions()
-        if Config.HEADLESS:
-            options.add_argument("--headless")
+        if headless:
+            options.add_argument("--headless=new")
             options.add_argument("--disable-gpu")
 
         # Extra options as parameters     
@@ -22,9 +32,9 @@ def get_driver():
         driver = webdriver.Chrome(options=options)
     
     # Firefox Browser
-    elif Config.BROWSER == "firefox":
+    elif browser == "firefox":
         options = FirefoxOptions()
-        if Config.HEADLESS:
+        if headless:
             options.add_argument("--headless")
         
         # Extra options as parameters     
@@ -35,9 +45,9 @@ def get_driver():
         driver = webdriver.Firefox(options=options)
     
     # Edge Browser
-    elif Config.BROWSER == "edge":
+    elif browser == "edge":
         options = EdgeOptions()
-        if Config.HEADLESS:
+        if headless:
             options.add_argument("--headless")
         
         # Extra options as parameters     
@@ -47,7 +57,7 @@ def get_driver():
         
         driver = webdriver.Edge(options=options)
     else:
-        raise ValueError(f"Unsupported browser: {Config.BROWSER}")
+        raise ValueError(f"Unsupported browser: {browser}")
     
     driver.implicitly_wait(Config.IMPLICIT_WAIT)
     driver.set_page_load_timeout(Config.PAGE_LOAD_TIMEOUT)
@@ -57,7 +67,7 @@ def get_driver():
 
 @pytest.fixture(scope="class", params=HomePageData.test_home_data)
 def setup(request):
-    driver = get_driver()
+    driver = get_driver(request)
     data = request.param
     driver.get(Config.BASE_URL)
     request.cls.driver = driver
@@ -67,7 +77,7 @@ def setup(request):
 
 @pytest.fixture(scope="function", params=HomePageData.test_home_data_multiple)
 def setup2(request):
-    driver = get_driver()
+    driver = get_driver(request)
     data = request.param
     driver.get(Config.BASE_URL)
     request.cls.driver = driver

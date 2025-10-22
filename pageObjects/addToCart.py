@@ -1,41 +1,23 @@
 from selenium.common import NoSuchElementException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
-from utilities.logging import Logger
-from utilities.PriceOperations import PriceOperations
+from utilities.BasePage import BaseActions
+from pageObjects.locators import AddCartLocators
 
 
-class addToCart(Logger):
-    def __init__(self, driver):
-        self.driver = driver
-
-    cart = (By.XPATH, "(//input[@id='add-to-cart-button'])[2]")
-    alternative_locator = (By.XPATH, "//input[@id='add-to-cart-button']")
-    priceAdded = (By.XPATH, "//span[@class='a-price a-text-price sc-product-price sc-white-space-nowrap a-size-medium']")
-    cartPage = (By.XPATH, "//span[@id='attach-sidesheet-view-cart-button']")
-    actualCart = (By.XPATH, "//span[@id='sw-gtc']")
-    addQuantity = (By.XPATH, "//span[@class='a-icon a-icon-small-add']")
-    cartItems = (By.XPATH, "//div[@data-csa-c-owner='CartX']")
-    cartTotal = (By.XPATH, "//span[@class='a-size-medium a-color-base sc-price sc-white-space-nowrap']")
-
-    def verify_elements_visibility(self, locator):
-        element_to_show = WebDriverWait(self.driver, 6).until(
-            expected_conditions.visibility_of_element_located(
-                (By.XPATH, locator)))
-        return element_to_show
+class addToCart(BaseActions):
 
     def add_to_cart_button(self):
         log = self.get_logger()
         try:
             # Try the preferred locator first (the one that usually works)
-            clickCart = self.driver.find_element(*addToCart.cart)
+            self.element_is_visible(AddCartLocators.cart)
+            clickCart = self.driver.find_element(*AddCartLocators.cart)
             log.info("Clicking on Add to Cart button (first attempt)")
             clickCart.click()
 
         except Exception as e:  # Handle exceptions if the first locator fails
             log.warning(f"First locator failed: {e}. Trying alternative locator.")
             try:
+                self.element_is_visible(AddCartLocators.alternative_locator)
                 clickCart2 = self.driver.find_element(*addToCart.alternative_locator)
                 # Example alternative locator
                 log.info("Clicking on Add to Cart button (second attempt)")
@@ -44,33 +26,35 @@ class addToCart(Logger):
                 log.error(f"Both locators failed: {e2}")
                 raise  # Re-raise the exception to signal a failure.
 
-        goToCart = self.driver.find_element(*addToCart.actualCart)
+        self.element_is_visible(AddCartLocators.actualCart)
+        goToCart = self.driver.find_element(*AddCartLocators.actualCart)
         goToCart.click()
 
     def price_added_cart(self):
         log = self.get_logger()
-        cartPrice = self.driver.find_element(*addToCart.priceAdded)
+        self.element_is_visible(AddCartLocators.priceAdded)
+        cartPrice = self.driver.find_element(*AddCartLocators.priceAdded)
         log.info(f"Price in cart: {cartPrice.text}")
         return cartPrice.text
 
     def modify_cart_add(self):
         log = self.get_logger()
-
-        increase_cart = self.driver.find_element(*addToCart.addQuantity)
+        self.element_is_visible(AddCartLocators.addQuantity)
+        increase_cart = self.driver.find_element(*AddCartLocators.addQuantity)
         log.info("Increasing Cart Quantity")
         increase_cart.click()
-        visible_delete = "//input[@value='Delete']"
-        self.verify_elements_visibility(visible_delete)
+        self.element_is_visible(AddCartLocators.visible_delete)
 
     def verify_cart_modification(self):
         log = self.get_logger()
-        po = PriceOperations()
-        getCartTotal = self.driver.find_elements(*addToCart.cartTotal)[0].text
-        cart_total = po.extract_price(getCartTotal)
+        self.element_is_visible(AddCartLocators.cartTotal)
+        getCartTotal = self.driver.find_elements(*AddCartLocators.cartTotal)[0].text
+        cart_total = self.extract_price(getCartTotal)
         total = 0
 
         try:
-            cart_items = self.driver.find_elements(*addToCart.cartItems)
+            self.element_is_visible(AddCartLocators.cartItems)
+            cart_items = self.driver.find_elements(*AddCartLocators.cartItems)
             if len(cart_items) == 0:
                 log.warning("No items found in the cart.")
                 assert False, "No items found in the cart."
@@ -98,25 +82,20 @@ class addToCart(Logger):
 
     def modify_cart_reduce(self):
         log = self.get_logger()
-        lowerQuantity = "//span[@class='a-icon a-icon-small-remove']"
-        self.verify_elements_visibility(lowerQuantity)
-        reduce_cart_item = self.driver.find_element(By.XPATH, lowerQuantity)
+        self.element_is_visible(AddCartLocators.lowerQuantity)
+        reduce_cart_item = self.driver.find_element(*AddCartLocators.lowerQuantity)
         log.info("Reducing Cart Quantity")
         reduce_cart_item.click()
-        visible_delete = "//input[@value='Delete']"
-        self.verify_elements_visibility(visible_delete)
+        self.element_is_visible(AddCartLocators.visible_delete)
 
     def delete_cart(self):
         log = self.get_logger()
-        visible_delete = "//input[@value='Delete']"
-        itemRemovedCart = "//span[contains(@id, 'sc-list-item-removed-msg-text-delete')]"
-        empty_cart = WebDriverWait(self.driver, 6).until(
-            expected_conditions.element_to_be_clickable((By.XPATH, visible_delete)))
+        empty_cart = self.element_clickable(AddCartLocators.visible_delete)
         log.info("Clicking on Delete button")
         empty_cart.click()
 
-        self.verify_elements_visibility(itemRemovedCart)
-        cart_empty = self.driver.find_element(By.XPATH, itemRemovedCart)
+        self.element_is_visible(AddCartLocators.itemRemovedCart)
+        cart_empty = self.driver.find_element(*AddCartLocators.itemRemovedCart)
         cart_empty_message = cart_empty.text
         log.info(f"Cart Deletion Message: {cart_empty_message}")
         return cart_empty_message

@@ -1,2 +1,0 @@
-[32mINFO    [0m test_delete_cart_quantity:test_single_product_add_to_cart.py:140 Deleting the product items from the cart
-[32mINFO    [0m delete_cart:addToCart.py:115 Clicking on Delete button

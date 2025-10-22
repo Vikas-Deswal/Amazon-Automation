@@ -1,6 +1,7 @@
 import pytest
 import allure
 from allure_commons.types import AttachmentType
+from selenium.webdriver.common.by import By
 
 from pageObjects.HomePage import HomePage
 from pageObjects.Products import ProductOverviewPage
@@ -17,7 +18,7 @@ class TestAdd_Multiple_Products_to_Cart(Logger):
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.title("Add multiple products to cart and validate totals")
     @allure.description("Search multiple products sequentially, validate details, add each to cart, then verify cart summary.")
-    def test_add_multiple_to_cart(self ):
+    def test_add_multiple_to_cart(self):
         log = self.get_logger()
         homePage = HomePage(self.driver)
         search_results = SearchResult(self.driver)

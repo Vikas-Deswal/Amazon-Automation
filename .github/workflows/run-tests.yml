@@ -1,8 +1,27 @@
-name: Run Smoke Tests
+name: Run Selenium Smoke Tests
 
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Browser to run tests on'
+        required: true
+        default: 'chrome'
+        type: choice
+        options:
+          - chrome
+          - firefox
+          - edge
+      headless:
+        description: 'Run in headless mode'
+        required: true
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
 
 jobs:
   test:
@@ -32,9 +51,9 @@ jobs:
           sudo tar -zxvf allure-2.24.0.tgz -C /opt/
           sudo ln -s /opt/allure-2.24.0/bin/allure /usr/bin/allure
 
-      - name: Run tests with Allure
+      - name: Run tests with Allure (Parallel + Headless)
         run: |
-          HEADLESS=true pytest --alluredir=allure-results
+          pytest -n auto --browser ${{ github.event.inputs.browser || 'chrome' }} -m smoke --headless ${{ github.event.inputs.headless || 'true' }} --alluredir=allure-results
 
       - name: Generate Allure report
         if: always()

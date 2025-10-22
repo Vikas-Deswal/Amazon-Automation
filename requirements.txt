@@ -1,4 +1,5 @@
 pytest
 pytest-html
+pytest-xdist
 selenium
 allure-pytest==2.13.5

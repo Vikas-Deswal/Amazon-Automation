@@ -1,1 +1,0 @@
-[32mINFO    [0m test_search_box_present:test_single_product_add_to_cart.py:29 Search box is present on Home Page

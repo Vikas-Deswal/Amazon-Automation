@@ -1,4 +1,0 @@
-[32mINFO    [0m product_title:Products.py:21 Product title is HP 15, 13th Gen Intel Core i5-1334U, (16GB DDR4,512GB SSD) Anti-Glare, Micro-Edge, FHD, 15.6''/39.6cm, Win11, M365 Basic(1yr)* Office24, Silver, 1.59kg, fd0577TU, Iris Xe, FHD Camera w/Shutter Laptop
-[32mINFO    [0m product_price:Products.py:32 Product Price is: 50,990
-[32mINFO    [0m product_ratings:Products.py:43 The product has been rated 3.7 out of 5 stars, with a total of 259 ratings
-[32mINFO    [0m product_images:Products.py:54 5 images are present

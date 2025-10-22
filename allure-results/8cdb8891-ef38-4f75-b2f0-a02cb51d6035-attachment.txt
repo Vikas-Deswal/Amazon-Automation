@@ -1,4 +1,0 @@
-[32mINFO    [0m product_title:Products.py:21 Product title is Apple iPhone 15 (128 GB) - Pink
-[32mINFO    [0m product_price:Products.py:32 Product Price is: 47,999
-[32mINFO    [0m product_ratings:Products.py:43 The product has been rated 4.5 out of 5 stars, with a total of 5,381 ratings
-[32mINFO    [0m product_images:Products.py:54 6 images are present
