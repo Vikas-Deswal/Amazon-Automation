@@ -51,13 +51,13 @@ jobs:
           sudo tar -zxvf allure-2.24.0.tgz -C /opt/
           sudo ln -s /opt/allure-2.24.0/bin/allure /usr/bin/allure
 
-      - name: Run tests with Allure (Parallel + Headless)
+      - name: Run tests with Allure (Sequential Mode)
         env:
           IMPLICIT_WAIT: "15"
           EXPLICIT_WAIT: "25"
           PAGE_LOAD_TIMEOUT: "40"
         run: |
-          pytest -n auto --browser ${{ github.event.inputs.browser || 'chrome' }} -m smoke --headless ${{ github.event.inputs.headless || 'true' }} --alluredir=allure-results -v
+          pytest --browser ${{ github.event.inputs.browser || 'chrome' }} -m smoke --headless ${{ github.event.inputs.headless || 'true' }} --alluredir=allure-results -v --tb=short
 
       - name: Generate Allure report
         if: always()
